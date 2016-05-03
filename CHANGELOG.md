@@ -1,3 +1,7 @@
+## [2.0.2] - 2016-04-08
+### Fixed
+- Remove hiperlinks to allow streaming parsing without loading whole files
+
 ## [2.0.1] - 2015-06-01
 ### Added
 - Return an enumerator when calling '#each' without a block [#219](https://github.com/roo-rb/roo/pull/219)
