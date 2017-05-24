@@ -20,7 +20,21 @@ module Roo
         def create_datetime(_,_);  end
 
         def create_date(base_date, value)
-          base_date + value.to_i
+          offset = offset_for_base_date(base_date, value.to_i)
+          base_date + offset
+        end
+
+        def offset_for_base_date(base_date, offset)
+          # Adjust for Excel erroneously treating 1900 as a leap year
+          if EPOCH_1900 == base_date
+            offset -= 1
+
+            if offset > 58
+              offset -= 1
+            end
+          end
+
+          offset
         end
       end
     end

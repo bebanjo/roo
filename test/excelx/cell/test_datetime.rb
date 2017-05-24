@@ -42,4 +42,8 @@ class TestRooExcelxCellDateTime < Minitest::Test
   def base_timestamp
     DateTime.new(1899, 12, 30).to_time.to_i
   end
+
+  def base_date
+    EPOCH_1900
+  end
 end
