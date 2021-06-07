@@ -51,6 +51,9 @@ module Roo
 
         private
 
+        EPOCH_1900 = Roo::Excelx::Workbook::EPOCH_1900
+        EPOCH_1900_TS = EPOCH_1900.to_datetime.to_time.to_i
+
         def parse_date_or_time_format(part)
           date_regex = /(?<date>[dmy]+[\-\/][dmy]+([\-\/][dmy]+)?)/
           time_regex = /(?<time>(\[?[h]\]?+:)?[m]+(:?ss|:?s)?)/
@@ -98,8 +101,22 @@ module Roo
         }
 
         def create_datetime(base_timestamp, value)
-          timestamp = (base_timestamp + (value.to_f.round(6) * SECONDS_IN_DAY)).round(0)
+          offset = offset_for_base_timestamp(base_timestamp, value.to_f.round(6))
+          timestamp = (base_timestamp + (offset * SECONDS_IN_DAY)).round(0)
           ::Time.at(timestamp).utc.to_datetime
+        end
+
+        def offset_for_base_timestamp(base_timestamp, offset)
+          # Adjust for Excel erroneously treating 1900 as a leap year
+          if EPOCH_1900_TS == base_timestamp
+            offset -= 1
+
+            if offset > 58
+              offset -= 1
+            end
+          end
+
+          offset
         end
       end
     end

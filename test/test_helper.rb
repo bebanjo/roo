@@ -167,3 +167,6 @@ def with_timezone(new_tz)
     yield
   end
 end
+
+EPOCH_1900 = Roo::Excelx::Workbook::EPOCH_1900
+EPOCH_1904 = Roo::Excelx::Workbook::EPOCH_1904
